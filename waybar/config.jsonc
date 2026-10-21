@@ -1,0 +1,99 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 26,
+  "spacing": 0,
+
+  "modules-left": ["group/workspaces", "sway/mode", "mpris", "sway/window"],
+  "modules-right": ["group/network", "group/audio", "group/battery", "clock"],
+
+  "group/workspaces": {
+    "orientation": "horizontal",
+    "modules": ["custom/open", "sway/workspaces", "custom/close"]
+  },
+  "custom/open": {"format": "[", "tooltip": false},
+  "custom/close": {"format": "]", "tooltip": false},
+  "sway/workspaces": {"all-outputs": true},
+  "sway/mode": {"format": "[{}]"},
+  "sway/window": {"format": "[{}]", "max-length": 50},
+  "mpris": {
+    "format": "[{status_icon} {title}]",
+    "status-icons": {"playing": "●", "paused": "○", "stopped": "○"},
+    "title-len": 35,
+    "tooltip-format": "{title}"
+  },
+
+  "group/network": {
+    "orientation": "horizontal",
+    "modules": ["network", "custom/vpn"]
+  },
+  "network": {
+    "format-wifi": "[wifi {essid}",
+    "format-ethernet": "[eth",
+    "format-disconnected": "[offline",
+    "on-click": "/run/current-system/sw/bin/kitty -e /run/current-system/sw/bin/nmtui"
+  },
+  "custom/vpn": {
+    "exec": "~/.config/waybar/vpn.sh",
+    "format": " {}]",
+    "interval": 5,
+    "tooltip": false,
+    "on-click": "/run/current-system/sw/bin/protonvpn-app"
+  },
+  "group/audio": {
+    "orientation": "horizontal",
+    "modules": ["pulseaudio#volume", "pulseaudio#device"]
+  },
+  "pulseaudio#volume": {
+    "format": "[vol{volume}",
+    "format-muted": "[muted",
+    "on-click": "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+  "pulseaudio#device": {
+    "format": " {icon}]",
+    "format-muted": " {icon}]",
+    "format-bluetooth": " bluetooth]",
+    "format-bluetooth-muted": " bluetooth]",
+    "format-icons": {
+      "speaker": "speakers",
+      "headphone": "headphones",
+      "headset": "headset",
+      "hdmi": "hdmi",
+      "default": "audio"
+    },
+    "tooltip-format": "{desc}",
+    "on-click": "/run/current-system/sw/bin/pavucontrol"
+  },
+  "group/battery": {
+    "orientation": "horizontal",
+    "modules": ["battery", "custom/charge", "power-profiles-daemon", "idle_inhibitor"]
+  },
+  "battery": {
+    "states": {"warning": 20, "critical": 10},
+    "format": "[bat{capacity}=",
+    "format-charging": "[bat{capacity}+",
+    "format-discharging": "[bat{capacity}-"
+  },
+  "custom/charge": {
+    "exec": "~/.config/waybar/charge.sh",
+    "format": "/{}",
+    "interval": "once",
+    "on-click": "~/.config/waybar/charge.sh toggle"
+  },
+  "power-profiles-daemon": {
+    "format": " {icon}",
+    "format-icons": {"performance": "perf", "balanced": "pbal", "power-saver": "psav"},
+    "tooltip-format": "{profile}"
+  },
+  "idle_inhibitor": {
+    "format": " {icon}]",
+    "format-icons": {"activated": "⬢", "deactivated": "⬡"},
+    "tooltip-format-activated": "awake: screen stays on",
+    "tooltip-format-deactivated": "idle: screen may lock"
+  },
+  "clock": {
+    "format": "[{:%a %d/%m %H:%M:%S}]",
+    "interval": 1,
+    "tooltip-format": "<tt><small>{calendar}</small></tt>"
+  }
+}

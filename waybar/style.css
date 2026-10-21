@@ -1,0 +1,24 @@
+* {
+  font-family: "Monaspace Neon NF", monospace;
+  font-size: 14px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+window#waybar {
+  background: #fed9ed;
+  color: #cb2762;
+  border-bottom: 1px solid #ed286f;
+}
+.modules-left, .modules-right { padding: 0 6px; }
+#workspaces button {
+  background: transparent;
+  color: #cb2762;
+  padding: 0 3px;
+  box-shadow: none;
+  text-shadow: none;
+}
+#workspaces button.focused { color: #a51d50; font-weight: bold; }
+#workspaces button:hover { background: #f4c3da; }
+#workspaces button.urgent, .warning, .critical { color: #a51d50; font-weight: bold; }
+tooltip { background: #fed9ed; color: #cb2762; border: 1px solid #ed286f; }

@@ -1,0 +1,37 @@
+# dunst, only what differs from the defaults. base16-bubblegum, the bar's blush
+
+[global]
+    follow = keyboard         # the screen you're on, not always the laptop
+    offset = (20, 20)
+    gap_size = 6              # a box per notification, not one shared frame
+    padding = 10
+    horizontal_padding = 12
+    frame_width = 2
+    frame_color = "#ed286f"   # base08
+    progress_bar_corner_radius = 5
+
+    font = Monaspace Neon NF 11
+    enable_recursive_icon_lookup = true
+    icon_theme = Chicago95    # dunst ignores the system theme and defaults to Adwaita
+    max_icon_size = 64        # screenshot thumbnails
+
+    dmenu = rofi -dmenu -p dunst:
+    browser = xdg-open
+
+[urgency_low]
+    background = "#fed9ed"   # waybar's @bg
+    foreground = "#cb2762"   # base0f
+    highlight = "#ed286f"
+
+[urgency_normal]
+    background = "#fed9ed"
+    foreground = "#cb2762"
+    highlight = "#ed286f"
+
+# same box, the selection blush from copyq. stays until clicked or Mod+`
+[urgency_critical]
+    background = "#f4c3da"
+    foreground = "#a51d50"
+    frame_color = "#cb2762"
+    highlight = "#a51d50"
+    timeout = 0

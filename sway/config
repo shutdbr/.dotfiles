@@ -1,0 +1,169 @@
+# sway. tty1 login starts it (fish/config.fish). reload: Mod+Shift+c
+
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $lock ~/.config/sway/lock.sh
+set $lg "LG Electronics LG IPS QHD 504TFHR1B929"
+
+set $ws1 "1:dev"
+set $ws2 "2:org"
+set $ws3 "3:web"
+set $ws4 "4:misc"
+set $ws5 "5:fax"
+set $ws6 "6:med"
+set $ws7 "7:mon"
+
+# bubblegum: unfocused borders match kitty's background
+set $accent #ed286f
+set $dark #352930
+
+### outputs
+output * bg ~/.config/sway/wxp.png fill
+output $lg mode 2560x1440@99.946Hz position 0 0
+output eDP-1 position 2560 0
+
+workspace $ws1 output $lg
+workspace $ws2 output $lg
+workspace $ws3 output $lg
+workspace $ws6 output $lg
+workspace $ws7 output $lg
+workspace $ws4 output eDP-1
+workspace $ws5 output eDP-1
+
+### input
+input type:touchpad {
+    tap enabled
+    middle_emulation enabled
+}
+input type:keyboard {
+    repeat_delay 250
+    repeat_rate 40
+}
+
+### look
+font pango:Monaspace Neon NF 10
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 8
+titlebar_padding 1
+titlebar_border_thickness 0
+seat * xcursor_theme Adwaita
+client.focused          $accent $accent $dark $accent $accent
+client.focused_inactive $dark   $dark   $dark $dark   $dark
+client.unfocused        $dark   $dark   $dark $dark   $dark
+
+### rules
+for_window [all] inhibit_idle fullscreen
+for_window [app_id="(?i)pavucontrol"] floating enable, move position center
+for_window [app_id="(?i)copyq"] floating enable, resize set 500 700, move position center
+assign [app_id="^emacs$"] workspace number $ws2
+assign [app_id="(?i)(signal|whatsapp|simplex|session)"] workspace number $ws5
+assign [class="(?i)(signal|whatsapp|simplex|session)"] workspace number $ws5
+assign [app_id="(?i)(vlc|spotify|mpv)"] workspace number $ws6
+assign [class="(?i)(vlc|spotify|mpv)"] workspace number $ws6
+
+### keys
+bindsym $mod+Return exec kitty
+bindsym $mod+d exec rofi -show drun
+bindsym $mod+Shift+d exec rofi -show run
+bindsym $mod+v exec copyq show
+bindsym $mod+grave exec dunstctl close
+bindsym $mod+Shift+grave exec dunstctl history-pop
+bindsym $mod+q kill
+bindsym $mod+Escape exec $lock
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'exit sway?' -B 'exit' 'swaymsg exit'
+floating_modifier $mod normal
+
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Tab workspace back_and_forth
+
+bindsym $mod+b splith
+bindsym $mod+n splitv
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+space focus mode_toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus move scratchpad
+
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl --min-value=1 set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioPause exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym Print exec ~/.config/sway/screenshot.sh
+
+# with the LG attached a closed lid doesn't suspend; turn the panel off instead.
+# alone it suspends, so leave the panel on and it can't stay black on wake
+bindswitch --reload --locked lid:on exec [ "$(swaymsg -t get_outputs | jq length)" -gt 1 ] && swaymsg output eDP-1 disable
+bindswitch --reload --locked lid:off output eDP-1 enable
+
+### autostart
+# lock at 5 min, screens off at 6
+exec swayidle -w \
+    timeout 300 '$lock' \
+    timeout 360 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    before-sleep '$lock' \
+    lock '$lock' \
+    after-resume 'swaymsg "output * power on"'
+exec copyq
+# dwm's fibonacci-like spiral: each new window splits the focused one
+exec autotiling-rs
+# notifies at low and critical battery; -s skips the alerts at startup
+exec poweralertd -s -S
+
+# needed: passes the session to systemd and starts waybar
+include /etc/sway/config.d/*

@@ -1,0 +1,69 @@
+// rofi as one line under waybar: type to filter, arrows or tab to pick,
+// enter to launch. the whole look is this file, no theme import
+
+configuration {
+    modes: "drun,run";
+    // just the name, the default adds an italic generic name
+    drun-display-format: "{name}";
+    // the system icon theme, from /etc/xdg/gtk-3.0/settings.ini
+    show-icons: true;
+}
+
+// start from nothing: without this rofi's built-in theme leaks through
+@theme "/dev/null"
+
+// base16-bubblegum, waybar's colours (waybar/style.css)
+* {
+    background-color: #fed9ed;
+    border-color:     #ed286f;
+    text-color:       #cb2762;
+    font:             "Monaspace Neon NF 11.5";
+}
+
+// full width at the top. sway already keeps it below waybar
+window {
+    anchor:   north;
+    location: north;
+    width:    100%;
+    // same height as waybar (waybar/config.jsonc), border included
+    height:   26px;
+    padding:  0 6px;
+    children: [ horibox ];
+    border:   0 0 1px 0;
+}
+
+horibox {
+    orientation: horizontal;
+    children:    [ entry, listview ];
+}
+
+listview {
+    layout:  horizontal;
+    spacing: 5px;
+    lines:   100;
+}
+
+entry {
+    expand: false;
+    width:  10em;
+    vertical-align: 0.5;
+}
+
+element {
+    padding: 0px 2px;
+    spacing: 4px;
+}
+
+element-icon {
+    size: 1.2em;
+}
+
+element selected {
+    background-color: #a51d50;
+    text-color:       #feedf3;
+}
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color:       inherit;
+}

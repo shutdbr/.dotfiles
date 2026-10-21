@@ -1,0 +1,3 @@
+# XDG user dirs, read by Firefox, GTK file pickers and Electron apps.
+# Lives at ~/.config/user-dirs.dirs. Only downloads is set.
+XDG_DOWNLOAD_DIR="$HOME/temp"

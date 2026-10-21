@@ -1,0 +1,5 @@
+# clang-format, read by clangd when nvim formats C/C++ on save (lsp.lua).
+# Lives at ~/.clang-format. Without it clangd falls back to LLVM style,
+# which indents 2 spaces.
+BasedOnStyle: LLVM
+IndentWidth: 4

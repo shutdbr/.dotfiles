@@ -1,0 +1,23 @@
+# copyq keeps its clipboard history and runtime state right next to its
+# config. i had 80k of actual clipboard contents committed in here for a
+# while, on a public repo, so only the config itself goes in
+copyq/*
+!copyq/copyq.conf
+
+# agent scratch dirs
+.claude/
+
+# fish writes these itself
+fish/fish_variables
+
+# configuration only; these are regenerated or machine-local
+**/__pycache__/
+*.pyc
+*.elc
+*.bak
+*.log
+*~
+doom/.git/
+doom/.agents/
+doom/.codex/
+doom/custom.el
