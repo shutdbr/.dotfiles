@@ -19,6 +19,11 @@ if status is-interactive
     abbr -a cum g++ -std=c++17
     abbr -a cumass g++ -Wall -Wextra -Wconversion -Wsign-conversion
     abbr -a texcompile latexmk -pdf -lualatex -interaction=batchmode -f
+    abbr -a cpr cp -r
+    abbr -a lb lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINTS
+    # usb drives without sudo, at /run/media/toad/<label>. % is where the cursor lands
+    abbr -a mnt --set-cursor 'udisksctl mount -b /dev/%'
+    abbr -a umnt --set-cursor 'udisksctl unmount -b /dev/%'
 end
 
 fish_add_path -g ~/.local/bin ~/.config/emacs/bin
